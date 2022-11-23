@@ -105,9 +105,9 @@ class UseTemplate extends BaseCommand
             $signerCount++;
 
         }
-        File::put(getcwd() . "/sendtemplate.json", $json->getJsonString() );
+        File::put(getcwd() . "/send_template.json", $json->getJsonString() );
 
-        $curl = $json->getCurlForTemplateLong('sendtemplate.json');
+        $curl = $json->getCurlForTemplateLong('send_template.json');
         $this->comment("Success, copy and run the command below to call the GoodSign api.\n");
         render($curl);
         $this->comment('');

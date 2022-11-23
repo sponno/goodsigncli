@@ -25,7 +25,7 @@ class Info extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'About the GoodSign CLI app v.1.03';
+    protected $description = 'About the GoodSign CLI app';
 
     /**
      * Execute the console command.
@@ -34,84 +34,18 @@ class Info extends BaseCommand
      */
     public function handle()
     {
-
         $this->checkAccount();
-        $account = $this->getAccount();
-        $this->title("Let's find some Templates");
-        $this->comment($this->getBasePath().'/api/templates');
-
-        templateloader:
-        $response = Http::withOptions(["verify"=>false])->withToken($account->apikey)->get($this->getBasePath().'/api/templates', []);
-
-        $templates = (string)$response->getBody();
-        //dd($response->getStatusCode());
-        $templates = json_decode($templates);
-
-
-        if($response->getStatusCode() == 404){
-            $this->warn("Your account doesn't have any templates");
-            if($this->confirm("Would you like me to add a Demo template?",true)){
-                $result = $this->addDemoTemplate();
-                print_r($result);
-                if($result->success){
-                    $this->info('Demo template created');
-                    goto templateloader;
-                }
-            }else{
-                $this->info('Ok, you can create your own template here https://goodsign.io/dashboard?filter=template');
-                return;
-            }
-        }
-
-        // create a menu - only show top 15.
-        $templateList = array_map(function ($item){return $item->name;},$templates);
-        $templateList = array_slice($templateList,0,15);// max 15 items
-        $option = $this->menu('Select Template – use arrow keys',
-        $templateList
-        )->setBackgroundColour('black')->open();
-
-        if($option === null){
-            $this->warn('No template selected');
-            return;
-        }
-
-        $template = $templates[$option];
-
-        $this->info('Template selected: '. $template->name);
-        $this->info('Template UUID: '. $template->uuid);
-        $this->info('Total Signers: '. count($template->signers));
-        $this->line('----------------------','info');
-
-        $json = new JsonBase($template->uuid);
-        $json->add('name',$this->ask('Document Name?',$template->name));
-        $signerCount = 1;
-        foreach($template->signers as $signer){
-            if($signerCount == 1){
-                $this->info("Signer '{$signer->key}' : {$account->name}, {$account->email}" );
-                //$this->comment("Using  - {$account->name},{$account->email}" );
-                $json->addSigner($signer->key,$account->name, $account->email);
-            }else{
-                $this->info("Signer '{$signer->key}' : add a new contact below");
-                $name = $this->ask("Enter a name for the '{$signer->key}'?");
-                nameagain:
-                $email = trim($this->ask("And their email '{$signer->key}'?"));
-                if($email == $account->email){
-                    $this->warn("Sorry you cannot use the same emails as your email eg {$account->email}");
-                    goto nameagain;
-                }
-                $json->addSigner($signer->key,$name, $email);
-            }
-
-            $signerCount++;
-
-        }
-        File::put(getcwd() . "/sendtemplate.json", $json->getJsonString() );
-
-        $curl = $json->getCurlForTemplate('sendtemplate.json');
-        $this->comment("Success, copy and run the command below to call the GoodSign api.\n");
-        render($curl);
-        $this->comment('');
-
+        $this->alert("This is DONE! \n space here hello");
+        $this->line("bold line \033[1mbold\033[0m text");
+        $this->comment("This is a comment <b>bold</b> text");
+        render('text <b class="text-red-600">bold'.(10-3).'</b> text');
+        $this->title("hello friends");
+        $this->question('? Whats going on here');
+        $this->info('Some info here');
+        $this->warn("testing warning");
+        $this->error('You failed');
+        $this->msg('my Message here');
+        //$this->alert("this is really goocl");
     }
 
 

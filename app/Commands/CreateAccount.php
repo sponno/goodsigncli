@@ -41,8 +41,8 @@ class CreateAccount extends BaseCommand
             }
             if(!empty($account->apikey)){
                 $this->comment('Your account is setup and we have saved your API key in account.yaml');
-                $this->comment('run `./goodsign` to see all available commands');
-                return;
+                $this->comment('run `./goodsigncli` to see all available commands');
+               exit();
             }
         }
 

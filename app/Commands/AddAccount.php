@@ -38,7 +38,7 @@ class AddAccount extends BaseCommand
             $account = $this->getAccount();
             if(!empty($account->apikey)){
                 $this->comment('Your account is setup and we have saved your API key in account.yaml');
-                if(!$this->ask('Do you want to continue?','yes')){
+                if($this->ask('Do you want to continue?','yes')!='yes'){
                     return;
                 }
             }

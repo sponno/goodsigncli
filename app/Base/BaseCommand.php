@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Yaml\Yaml;
 
-class BaseCommand extends Command
+class BaseCommand extends BaseMessages
 {
     function accountExists():bool{
         return File::exists(getcwd() . "/account.yaml");
