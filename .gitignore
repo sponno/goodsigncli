@@ -5,3 +5,4 @@
 .phpunit.result.cache
 /account.yaml
 /sendtemplate.json
+/builds/goodsigncli-old.phar

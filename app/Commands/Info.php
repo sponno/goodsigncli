@@ -25,7 +25,7 @@ class Info extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'About the GoodSign CLI app';
+    protected $description = 'About the GoodSign CLI app v.1.03';
 
     /**
      * Execute the console command.
