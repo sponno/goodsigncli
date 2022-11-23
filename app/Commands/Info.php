@@ -34,15 +34,9 @@ class Info extends BaseCommand
      */
     public function handle()
     {
-        $account = null;
-        // check to see if we have an account but no api key
-        if($this->accountExists()){
-            $account = $this->getAccount();
-            if(empty($account->apikey)){
-                $this->warn('We could not find your API key - please run the `./goodsign start` command');
-                return;
-            }
-        }
+
+        $this->checkAccount();
+        $account = $this->getAccount();
         $this->title("Let's find some Templates");
         $this->comment($this->getBasePath().'/api/templates');
 

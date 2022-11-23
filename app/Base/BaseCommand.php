@@ -20,7 +20,11 @@ class BaseCommand extends Command
                 $this->warn('We could not find your API key - please run the `./goodsign start` command');
                 exit();
             }
-        }
+        }else{
+             $this->warn('We could not find your account - please run the `./goodsign start` command');
+             exit();
+
+         }
     }
 
     // Basic local storage for data

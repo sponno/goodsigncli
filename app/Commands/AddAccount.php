@@ -47,7 +47,7 @@ class AddAccount extends BaseCommand
         $account->name = $this->ask("What's your name");
         $account->email = $this->ask("What's your email");
         $this->comment("Add your existing API key from GoodSign. You can find it here https://goodsign.io/profile/apikeys");
-        $this->apikey = $this->ask("Add your existing API key from GoodSign.");
+        $account->apikey = $this->ask("Add your existing API key from GoodSign.");
         $this->setAccount($account);
         $this->comment("Your account details and API key have been saved to ./account.yaml");
 
