@@ -1,0 +1,1 @@
+GoodSign CLI documentation
