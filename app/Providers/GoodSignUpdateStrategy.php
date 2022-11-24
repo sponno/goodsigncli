@@ -16,7 +16,7 @@ final class GoodSignUpdateStrategy extends  \Humbug\SelfUpdate\Strategy\DirectDo
      */
     public function getDownloadUrl(): string
     {
-        return 'https://goodsign.io/downloads/goodsigncli';
+        return 'https://goodsign.io/downloads/goodsign';
     }
 
 

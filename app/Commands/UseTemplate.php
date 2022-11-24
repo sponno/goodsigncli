@@ -37,7 +37,7 @@ class UseTemplate extends BaseCommand
         $this->checkAccount();
         $account = $this->getAccount();
 
-        $this->title("Let's find some Templates");
+        $this->title("Send an existing template via the API");
         $this->comment($this->getBasePath().'/api/templates');
 
         templateloader:
@@ -47,12 +47,10 @@ class UseTemplate extends BaseCommand
         //dd($response->getStatusCode());
         $templates = json_decode($templates);
 
-
         if($response->getStatusCode() == 404){
             $this->warn("Your account doesn't have any templates");
             if($this->confirm("Would you like me to add a Demo template?",true)){
                 $result = $this->addDemoTemplate();
-                print_r($result);
                 if($result->success){
                     $this->info('Demo template created');
                     goto templateloader;
@@ -66,7 +64,7 @@ class UseTemplate extends BaseCommand
         // create a menu - only show top 15.
         $templateList = array_map(function ($item){return $item->name;},$templates);
         $templateList = array_slice($templateList,0,15);// max 15 items
-        $option = $this->menu('Select Template – use arrow keys',
+        $option = $this->menu('Select a template – use arrow keys',
         $templateList
         )->setBackgroundColour('black')->open();
 
@@ -108,10 +106,10 @@ class UseTemplate extends BaseCommand
         File::put(getcwd() . "/send_template.json", $json->getJsonString() );
 
         $curl = $json->getCurlForTemplateLong('send_template.json');
-        $this->comment("Success, copy and run the command below to call the GoodSign api.\n");
+        $this->info("\n****   SUCCESS  ****\n");
+        $this->comment("Copy the CURL command below and run it in your terminal to send this template\n");
         render($curl);
         $this->comment('');
-
     }
 
 

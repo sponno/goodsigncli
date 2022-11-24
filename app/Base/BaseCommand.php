@@ -44,8 +44,9 @@ class BaseCommand extends BaseMessages
         File::put(getcwd() . "/account.yaml", Yaml::dump((array)$account, 1));
     }
 
+    // use the testing site if the file ./uselocalhost.txt exists
     public function getBasePath(){
-        if(File::exists(getcwd() . "/commands.txt")){
+        if(File::exists(getcwd() . "/uselocalhost.txt")){
             return 'https://localhost:8000'; // dev
         }else{
             return 'https://goodsign.io'; // prod

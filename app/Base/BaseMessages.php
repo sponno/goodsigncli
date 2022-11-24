@@ -42,9 +42,9 @@ class BaseMessages extends Command
         $spaces = str_repeat(' ', $size);
 
         $this->output->newLine();
-        $this->output->writeln("<bg=gray;fg=black>$spaces$spaces$spaces</>");
-        $this->output->writeln("<bg=gray;fg=black>$spaces$title$spaces</>");
-        $this->output->writeln("<bg=gray;fg=black>$spaces$spaces$spaces</>");
+        $this->output->writeln("<bg=gray;fg=white>$spaces$spaces$spaces</>");
+        $this->output->writeln("<bg=gray;fg=white>$spaces$title$spaces</>");
+        $this->output->writeln("<bg=gray;fg=white>$spaces$spaces$spaces</>");
         $this->output->newLine();
 
         return $this;

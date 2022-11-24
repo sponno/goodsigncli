@@ -8,9 +8,9 @@ class JsonBase extends BaseCommand
 {
     private $data;
 
-    public function __construct($uuid){
+    public function __construct($uuid=''){
         $this->data = [];
-        $this->data['uuid'] = $uuid;
+        if(!empty($uuid)) $this->data['uuid'] = $uuid; // not all requests need a UUID, eg post a PDF
         $this->signers = [];
     }
     public function add($key,$value){
@@ -55,5 +55,28 @@ class JsonBase extends BaseCommand
 -F 'file=@./goodsign_guide.pdf' \
 -F 'payload=".File::get(getcwd() .'/'. $filename)."'";
     }
+
+    public function getCurlForReminder($uuid, $email){
+        return "curl --url ".$this->getBasePath()."/api/document/".$uuid."/remind \
+--header 'authorization: Bearer ".$this->getApiKey()."' \
+-F 'signer_email=".$email."'";
+    }
+
+
+    public function getCurlForVoid($uuid, $notify, $msg){
+        $curl =  "curl --url ".$this->getBasePath()."/api/document/".$uuid."/void \
+--header 'authorization: Bearer ".$this->getApiKey() ."'";
+        if($notify){
+            $curl .= "\
+            -F 'slient=true'";
+        }
+        if($msg!=''){
+            $curl .= "\
+            -F 'msg=".$msg."'";
+        }
+        return $curl;
+    }
+
+
 
 }

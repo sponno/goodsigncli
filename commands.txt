@@ -1,2 +1,0 @@
-# Fix large build size for
-composer install --no-dev

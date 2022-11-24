@@ -38,7 +38,7 @@ class AddAccount extends BaseCommand
             $account = $this->getAccount();
             if(!empty($account->apikey)){
                 $this->comment('Your account is setup and we have saved your API key in account.yaml');
-                if($this->ask('Do you want to continue?','yes')!='yes'){
+                if($this->ask('Do you want to continue? [y/N]','y')!='y'){
                     return;
                 }
             }
@@ -47,33 +47,10 @@ class AddAccount extends BaseCommand
         $account->name = $this->ask("What's your name");
         $account->email = $this->ask("What's your email");
         $this->comment("Add your existing API key from GoodSign. You can find it here https://goodsign.io/profile/apikeys");
-        $account->apikey = $this->ask("Add your existing API key from GoodSign.");
+        $account->apikey = $this->ask("Enter your GoodSign API key");
         $this->setAccount($account);
         $this->comment("Your account details and API key have been saved to ./account.yaml");
 
-
-    }
-
-    function processEmailCodeForApiKey(){
-        $account = $this->getAccount();
-        getcode: // loop back to try again.
-        $code = $this->ask('Please enter the code we emailed you');
-
-        $response = Http::withOptions(["verify"=>false])->post($this->getBasePath().'/api/qs/verifycode', ['code'=>$code, 'email'=>$account->email]);
-        $data = json_decode((string)$response->getBody());
-
-        if($data->success){
-            $account->apikey = $data->key;
-            File::put(getcwd() . "/account.yaml", Yaml::dump((array)$account, 1));
-            $this->info($data->msg);
-            $this->alert('I have saved your API key the ./account.yaml file located in this dir');
-            $this->comment('You can also login to your account at https://goodsign.io/');
-            $this->comment('Move onto our API section and send a document for signing');
-        }else{
-            $this->info($data->msg);
-            $tryAgain =$this->confirm('Try again',true);
-            if($tryAgain) goto getcode;
-        }
     }
 
     /**
