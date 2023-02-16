@@ -27,6 +27,22 @@ class JsonBase extends BaseCommand
         return $this;
     }
 
+    public function addExtraField($signerKey, $type, $opt, $value, $left, $top, $width, $height, $page, $style=''){
+        $this->data['extrafields'][] = [
+            'key' => $signerKey, // signer id, eg signer 1
+            'type' => $type,     //sign (xs, sm, md, lg, xl), in, input, c (checkbox), c1(checkbox group 1), c1, date, name
+            'opt' => $opt,       // "?" or nothing. Only work with input fields to make them optional
+            'value' => $value,   // input or checkbox, use "x" to set a checkbox checked
+            'left' => $left,     // location in points. A4 =  595 wide × 842 high points. top left is (0,0)
+            'top' => $top,
+            'width' => $width,
+            'height' => $height,  // 10 is a good height for an input, not needed for signing fields
+            'page' => $page,      // page number - first page is page 1
+            'style'=>$style,      // css type styles eg color:red;
+        ];
+        return $this;
+    }
+
     public function getJsonString(){
         return json_encode($this->data);
     }
@@ -49,10 +65,10 @@ class JsonBase extends BaseCommand
 -F 'file=@./goodsign_guide.pdf' \
 -F 'payload=@./$filename'";
     }
-   public function getCurlForPdfUploadLong($filename){
+   public function getCurlForPdfUploadLong($filename,$pdf='goodsign_guide.pdf'){
         return "curl --url ".$this->getBasePath()."/api/uploadpdf \
 --header 'authorization: Bearer ".$this->getApiKey()."' \
--F 'file=@./goodsign_guide.pdf' \
+-F 'file=@./$pdf' \
 -F 'payload=".File::get(getcwd() .'/'. $filename)."'";
     }
 
